@@ -19,7 +19,7 @@ else
     opam init --disable-sandboxing
 fi
 cd $BUILD_DIR
-if [[ -e $CACHE_DIR/_opam ]]; then
+if [[ ! -e $CACHE_DIR/_opam ]]; then
     echo "_opam cached"
     cp -r $CACHE_DIR/_opam ./_opam
 else
@@ -31,7 +31,7 @@ opam install . --deps-only --locked -y
 eval $(opam env)
 opam switch
 opam show dune
-echo "Building"
+"Building"
 opam exec -- dune build @install
 echo "Copying .opam"
 rm -rf $CACHE_DIR/.opam && cp -r ~/.opam $CACHE_DIR/.opam
