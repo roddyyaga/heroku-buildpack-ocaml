@@ -3,5 +3,5 @@
 cat << EOF
 ---
 default_process_types:
-  web: _build/default/install/bin/main
+  web: _build/install/default/bin/main
 EOF
