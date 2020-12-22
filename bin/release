@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cat << EOF
+---
+default_process_types:
+  web: _build/default/install/bin/main
+EOF
