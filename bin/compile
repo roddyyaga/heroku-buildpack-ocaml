@@ -7,4 +7,4 @@ export PATH=/app/.heroku/bin:$PATH
 opam init --disable-sandboxing
 opam install --deps-only $BUILD_DIR -y
 eval $(opam env)
-dune build @install
+cd $BUILD_DIR && dune build @install
