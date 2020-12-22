@@ -29,9 +29,11 @@ fi
 echo "Installing deps"
 opam install . --deps-only --locked -y
 eval $(opam env)
-echo "Copying .opam"
-rm -rf $CACHE_DIR/.opam && cp -r ~/.opam $CACHE_DIR/.opam
+opam switch
+opam show dune
 echo "Building"
 dune build @install
+echo "Copying .opam"
+rm -rf $CACHE_DIR/.opam && cp -r ~/.opam $CACHE_DIR/.opam
 echo "Copying _opam"
 rm -rf $CACHE_DIR/_opam && cp -r _opam $CACHE_DIR/_opam
