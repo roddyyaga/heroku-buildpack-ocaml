@@ -1,9 +1,10 @@
 #!/bin/bash
+BUILD_DIR=$1
 wget https://github.com/ocaml/opam/releases/download/2.0.7/opam-2.0.7-x86_64-linux
 mkdir -p /app/.heroku/bin
 install opam-2.0.7-x86_64-linux /app/.heroku/bin/opam
 export PATH=/app/.heroku/bin:$PATH
 opam init --disable-sandboxing
-opam install --deps-only .
+opam install --deps-only $BUILD_DIR
 eval $(opam env)
 dune build @install
