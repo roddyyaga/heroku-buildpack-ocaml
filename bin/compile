@@ -1,10 +1,37 @@
 #!/bin/bash
+set -eo pipefail
+
 BUILD_DIR=$1
-wget https://github.com/ocaml/opam/releases/download/2.0.7/opam-2.0.7-x86_64-linux
-mkdir -p /app/.heroku/bin
-install opam-2.0.7-x86_64-linux /app/.heroku/bin/opam
-export PATH=/app/.heroku/bin:$PATH
-opam init --disable-sandboxing
-opam install --deps-only $BUILD_DIR -y
+CACHE_DIR=$2
+
+if [[ ! -e $CACHE_DIR/bin/opam ]]; then
+    echo "opam not cached, downloading"
+    wget https://github.com/ocaml/opam/releases/download/2.0.7/opam-2.0.7-x86_64-linux
+    mkdir -p $CACHE_DIR/bin
+    install opam-2.0.7-x86_64-linux $CACHE_DIR/bin/opam
+fi
+export PATH=$CACHE_DIR/bin:$PATH
+if [[ -e $CACHE_DIR/.opam ]]; then
+    echo ".opam cached"
+    cp -r $CACHE_DIR/.opam ~/.opam
+else
+    echo ".opam not cached, calling init"
+    opam init --disable-sandboxing
+fi
+cd $BUILD_DIR
+if [[ -e $CACHE_DIR/_opam ]]; then
+    echo "_opam cached"
+    cp -r $CACHE_DIR/_opam ./_opam
+else
+    echo "_opam not cached, creating switch"
+    opam switch create . --empty
+fi
 eval $(opam env)
-cd $BUILD_DIR && dune build @install
+echo "Installing deps"
+opam install --deps-only --locked -y
+echo "Copying .opam"
+rm -rf $CACHE_DIR/.opam && cp -r ~/.opam $CACHE_DIR/.opam
+echo "Building"
+dune build @install
+echo "Copying _opam"
+rm -rf $CACHE_DIR/_opam && cp -r _opam $CACHE_DIR/_opam
