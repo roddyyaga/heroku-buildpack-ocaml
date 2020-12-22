@@ -11,29 +11,23 @@ if [[ ! -e $CACHE_DIR/bin/opam ]]; then
     install opam-2.0.7-x86_64-linux $CACHE_DIR/bin/opam
 fi
 export PATH=$CACHE_DIR/bin:$PATH
-if [[ -e $CACHE_DIR/.opam ]]; then
+if [[ ! -e $CACHE_DIR/.opam ]]; then
     echo ".opam cached"
     cp -r $CACHE_DIR/.opam ~/.opam
 else
     echo ".opam not cached, calling init"
+    echo $HOME
+    echo '^^^ that is home path'
     opam init --disable-sandboxing
+    opam switch create heroku --empty
 fi
 cd $BUILD_DIR
-if [[ ! -e $CACHE_DIR/_opam ]]; then
-    echo "_opam cached"
-    cp -r $CACHE_DIR/_opam ./_opam
-else
-    echo "_opam not cached, creating switch"
-    opam switch create . --empty
-fi
+opam switch heroku
+eval $(opam env)
 echo "Installing deps"
 opam install . --deps-only --locked -y
 eval $(opam env)
-opam switch
-opam show dune
-"Building"
-opam exec -- dune build @install
+echo "Building"
+dune build @install
 echo "Copying .opam"
 rm -rf $CACHE_DIR/.opam && cp -r ~/.opam $CACHE_DIR/.opam
-echo "Copying _opam"
-rm -rf $CACHE_DIR/_opam && cp -r _opam $CACHE_DIR/_opam
