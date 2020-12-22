@@ -1,6 +1,4 @@
 #!/bin/bash
-sh <(curl -sL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh)
-wget https://github.com/ocaml/opam/releases/download/2.0.7/opam-2.0.7-x86_64-linux
-install opam-2.0.7-x86_64-linux /usr/local/bin/opam
+apt-get install opam
 opam install --deps-only .
 dune build @install
