@@ -28,7 +28,7 @@ else
 fi
 eval $(opam env)
 echo "Installing deps"
-opam install --deps-only --locked -y
+opam install . --deps-only --locked -y
 echo "Copying .opam"
 rm -rf $CACHE_DIR/.opam && cp -r ~/.opam $CACHE_DIR/.opam
 echo "Building"
