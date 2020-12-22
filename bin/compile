@@ -31,8 +31,6 @@ opam install . --deps-only --locked -y
 eval $(opam env)
 opam switch
 opam show dune
-echo "dune"
-which dune
 echo "Building"
 opam exec -- dune build @install
 echo "Copying .opam"
