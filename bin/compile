@@ -3,6 +3,14 @@ wget https://github.com/ocaml/opam/releases/download/2.0.7/opam-2.0.7-x86_64-lin
 mkdir -p /app/.heroku/bin
 install opam-2.0.7-x86_64-linux /app/.heroku/bin/opam
 export PATH=/app/.heroku/bin:$PATH
+git clone https://github.com/containers/bubblewrap &&
+    cd bubblewrap &&
+    ./autogen.sh &&
+    ./configure &&
+    make -j 2 &&
+    cd .. &&
+    install bubblewrap/bwrap /app/.heroku/bin/bwrap &&
+    rm -r bubblewrap
 opam init
 opam install --deps-only .
 dune build @install
