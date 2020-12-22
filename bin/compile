@@ -16,8 +16,6 @@ if [[ -e $CACHE_DIR/.opam ]]; then
     cp -r $CACHE_DIR/.opam ~/.opam
 else
     echo ".opam not cached, calling init"
-    echo $HOME
-    echo '^^^ that is home path'
     opam init --disable-sandboxing
     opam switch create heroku --empty
 fi
@@ -30,5 +28,9 @@ opam install . --deps-only --locked -y
 eval $(opam env)
 echo "Building"
 dune build @install
+echo $BUILD_DIR
+dune install --prefix ~/_build
+rm -rf $BUILD_DIR
+mv ~/_build $BUILD_DIR
 echo "Copying .opam"
 rm -rf $CACHE_DIR/.opam && cp -r ~/.opam $CACHE_DIR/.opam
