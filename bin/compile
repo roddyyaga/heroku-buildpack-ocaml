@@ -11,7 +11,7 @@ if [[ ! -e $CACHE_DIR/bin/opam ]]; then
     install opam-2.0.7-x86_64-linux $CACHE_DIR/bin/opam
 fi
 export PATH=$CACHE_DIR/bin:$PATH
-if [[ ! -e $CACHE_DIR/.opam ]]; then
+if [[ -e $CACHE_DIR/.opam ]]; then
     echo ".opam cached"
     cp -r $CACHE_DIR/.opam ~/.opam
 else
@@ -22,6 +22,7 @@ else
     opam switch create heroku --empty
 fi
 cd $BUILD_DIR
+pwd
 opam switch heroku
 eval $(opam env)
 echo "Installing deps"
