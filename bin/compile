@@ -26,9 +26,9 @@ else
     echo "_opam not cached, creating switch"
     opam switch create . --empty
 fi
-eval $(opam env)
 echo "Installing deps"
 opam install . --deps-only --locked -y
+eval $(opam env)
 echo "Copying .opam"
 rm -rf $CACHE_DIR/.opam && cp -r ~/.opam $CACHE_DIR/.opam
 echo "Building"
