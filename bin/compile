@@ -30,7 +30,15 @@ echo "Building"
 dune build @install
 echo $BUILD_DIR
 dune install --prefix ~/_build
+if [[ -e $BUILD_DIR/Procfile ]]; then
+    echo "procfile 1"
+    cp $BUILD_DIR/Procfile ~/Procfile
+fi
 rm -rf $BUILD_DIR
 mv ~/_build $BUILD_DIR
+if [[ -e ~/Procfile ]]; then
+    echo "procfile 2"
+    mv ~/Procfile $BUILD_DIR/Procfile
+fi
 echo "Copying .opam"
 rm -rf $CACHE_DIR/.opam && cp -r ~/.opam $CACHE_DIR/.opam
