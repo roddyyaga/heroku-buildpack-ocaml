@@ -24,7 +24,7 @@ pwd
 opam switch heroku
 eval $(opam env)
 echo "Installing deps"
-opam install . --deps-only --locked -y
+OPAMSOLVERTIMEOUT=6000 opam install . --deps-only --locked -y
 eval $(opam env)
 echo "Building"
 dune build @install
