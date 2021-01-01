@@ -1,7 +1,5 @@
 #!/bin/sh
 BUILD_DIR=$1
-echo "hello"
-exit 0
 if stat -t "${BUILD_DIR}/*.opam.locked" >/dev/null 2>&1; then
     echo "OCaml"
     exit 0
