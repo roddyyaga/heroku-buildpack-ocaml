@@ -1,9 +1,9 @@
 #!/bin/sh
 BUILD_DIR=$1
-if compgen -G "${BUILD_DIR}/*.opam.locked" > /dev/null; then
+if stat -t "${BUILD_DIR}/*.opam.locked" >/dev/null 2>&1; then
     echo "OCaml"
     exit 0
-elif compgen -G "${BUILD_DIR}/*.opam" > /dev/null; then
+elif stat -t "${BUILD_DIR}/*.opam" > /dev/null 2>&1; then
     echo "No .opam.locked file detected"
     echo "Generate one with [opam lock]"
     exit 1
