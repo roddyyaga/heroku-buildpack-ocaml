@@ -1,13 +1,13 @@
 #!/bin/sh
 BUILD_DIR=$1
-if stat -t "${BUILD_DIR}/*.opam.locked" >/dev/null 2>&1; then
+if stat -t ${BUILD_DIR}/*.opam.locked >/dev/null 2>&1; then
     echo "OCaml"
     exit 0
-elif stat -t "${BUILD_DIR}/*.opam" > /dev/null 2>&1; then
-    echo "No .opam.locked file detected"
-    echo "Generate one with [opam lock]"
+elif stat -t ${BUILD_DIR}/*.opam >/dev/null 2>&1; then
+    echo "No .opam.locked file detected" >&2
+    echo "Generate one with [opam lock]" >&2
     exit 1
 else
-    echo "No .opam.locked file detected"
+    echo "No .opam.locked file detected" >&2
     exit 1
 fi
